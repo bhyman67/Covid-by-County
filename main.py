@@ -14,61 +14,59 @@ app = Flask(__name__)
 @app.route("/", methods = ["GET","POST"])
 def home():
 
-    # # Read in the data (should only have to read in the data once, but we'll 
-    # # figure that out l8er...)
-    # df = pd.read_csv('data/time_series_covid19_confirmed_US.csv')
-    # df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
-    # df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
+    # Read in the data (should only have to read in the data once, but we'll 
+    # figure that out l8er...)
+    df = pd.read_csv('data/time_series_covid19_confirmed_US.csv')
+    df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
+    df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
 
-    # # list all locations
-    # locations = df["Combined_Key"].to_list()
+    # list all locations
+    locations = df["Combined_Key"].to_list()
 
-    # if "locations" in request.form:
-    #     if request.form["locations"] != "":
-    #         graphData = True
-    # else:
-    #     graphData = False
+    if "locations" in request.form:
+        if request.form["locations"] != "":
+            graphData = True
+    else:
+        graphData = False
 
-    # if graphData:
-    #     # Next step depends on whether the breakdown is by state or county
-    #     breakDownByCounty = True
-    #     if breakDownByCounty:
+    if graphData:
+        # Next step depends on whether the breakdown is by state or county
+        breakDownByCounty = True
+        if breakDownByCounty:
 
-    #         # Filter
-    #         county = request.form["locations"].split(",")[0] #"Jefferson"
-    #         state = request.form["locations"].split(",")[1].strip() #"Colorado"
-    #         df = df[(df["County"] == county) & (df["State"] == state)]
+            # Filter
+            county = request.form["locations"].split(",")[0] #"Jefferson"
+            state = request.form["locations"].split(",")[1].strip() #"Colorado"
+            df = df[(df["County"] == county) & (df["State"] == state)]
 
-    #         # Extract out the time series
-    #         df.drop(columns = ["County","State"],inplace = True)
-    #         df = df.T
-    #         new_header = df.iloc[0] #grab the first row for the header
-    #         df = df[1:] #take the data less the header row
-    #         df.columns = new_header #set the header row as the df header
+            # Extract out the time series
+            df.drop(columns = ["County","State"],inplace = True)
+            df = df.T
+            new_header = df.iloc[0] #grab the first row for the header
+            df = df[1:] #take the data less the header row
+            df.columns = new_header #set the header row as the df header
 
-    #         # The time series
-    #         stateCountryData = df.iloc[:,0].diff(1)
+            # The time series
+            stateCountryData = df.iloc[:,0].diff(1)
 
-    #     else:
+        else:
 
-    #         # group by state and date, sum the date???
-    #         # State #s need to be calculated per day
+            # group by state and date, sum the date???
+            # State #s need to be calculated per day
 
-    #         # Grab the list of all dates
+            # Grab the list of all dates
 
-    #         print()
+            print()
 
-    #     # fig = px.line(stateCountryData, x="", y="", title='')
-    #     fig = px.line(stateCountryData)
-    #     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+        # fig = px.line(stateCountryData, x="", y="", title='')
+        fig = px.line(stateCountryData)
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-    #     # Return template and data
-    #     return render_template("index.html", list=locations, graphJSON=graphJSON)
+        # Return template and data
+        return render_template("index.html", list=locations, graphJSON=graphJSON)
     
-    # else:
-    #     return render_template("index.html", list=locations)
-
-    return "<h1>the covid by country app...</h1>"
+    else:
+        return render_template("index.html", list=locations)
 
 if __name__ == "__main__":
 

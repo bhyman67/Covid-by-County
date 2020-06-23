@@ -68,7 +68,7 @@ def home():
     # else:
     #     return render_template("index.html", list=locations)
 
-    return "<h1>My covid by country app</h1>"
+    return "<h1>the covid by country app...</h1>"
 
 if __name__ == "__main__":
 

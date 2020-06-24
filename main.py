@@ -20,6 +20,8 @@ def home():
     df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
     df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
 
+    # I think what i want to do instead is list all states and counties
+
     # list all locations
     locations = df["Combined_Key"].to_list()
 

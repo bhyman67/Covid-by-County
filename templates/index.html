@@ -8,7 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>...</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+			$(function() {
+				$("#text-one").change(function() {
+					$("#text-two").load("static/" + $(this).val() + ".txt");
+				});
+			});
+		</script>
 
   </head>
 
@@ -49,5 +58,23 @@
     </script>
 
   <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics</a></p>
+
+  <div id="page-wrap">
+		
+    <h1>Pulls from text files</h1>
+
+    <select id="text-one">
+      <option selected value="base">Please Select</option>
+      <option value="beverages">Beverages</option>
+      <option value="snacks">Snacks</option>
+    </select>
+    
+    <br />
+    
+    <select id="text-two">
+      <option>Please choose from above</option>
+    </select>
+  
+  </div>
 
 </html>

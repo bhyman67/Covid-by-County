@@ -44,7 +44,7 @@
       <br />
       
       <select name = "state" id="text-three" form = "myForm">
-        <option selected value="base">Please Select</option>
+        <option selected value="base">Select a state</option>
         {% for state in states %}
           <option value= "{{ state }}" >{{ state }}</option>
         {% endfor %}
@@ -54,7 +54,7 @@
       <br />
   
       <select name = 'county' id="text-four" form = "myForm" onchange="this.form.submit()">
-        <option>Please choose from above</option>
+        <option>Select a county</option>
       </select>
 
       <!-- <select name="locations" id="locations" form = "myForm" onchange="this.form.submit()">

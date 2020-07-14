@@ -22,6 +22,8 @@ def home():
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
+    # This is for determining whether or not a county has been selected to graph
+    # that won't be the case for when the html gets pulled up for the first time.
     if "county" in request.form:
         if request.form["county"] != "":
             graphData = True
@@ -29,33 +31,19 @@ def home():
         graphData = False
 
     if graphData:
-        # Next step depends on whether the breakdown is by state or county
-        breakDownByCounty = True
-        if breakDownByCounty:
 
-            # Filter
-            county = request.form["county"]
-            state = request.form["state"]
-            df = df[(df["County"] == county) & (df["State"] == state)]
+        # Filter
+        county = request.form["county"]
+        state = request.form["state"]
+        df = df[(df["County"] == county) & (df["State"] == state)]
 
-            # Extract out the time series
-            df.drop(columns = ["County","State"],inplace = True)
-            df = df.T
-            new_header = df.iloc[0] #grab the first row for the header
-            df = df[1:] #take the data less the header row
-            df.columns = new_header #set the header row as the df header
-
-            # The time series
-            stateCountryData = df.iloc[:,0].diff(1)
-
-        else:
-
-            # group by state and date, sum the date???
-            # State #s need to be calculated per day
-
-            # Grab the list of all dates
-
-            print()
+        # Extract out the time series
+        df.drop(columns = ["County","State"],inplace = True)
+        df = df.T
+        new_header = df.iloc[0] #grab the first row for the header
+        df = df[1:] #take the data less the header row
+        df.columns = new_header #set the header row as the df header
+        stateCountryData = df.iloc[:,0].diff(1)
 
         # fig = px.line(stateCountryData, x="", y="", title='')
         fig = px.line(stateCountryData)
@@ -65,6 +53,7 @@ def home():
         return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
     
     else:
+
         return render_template("index.html", states = states, list=locations)
 
 if __name__ == "__main__":

@@ -6,20 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>...</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+
+    <title>Covid by US County</title>
+
+    <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+    <!-- For making county drop down list dynamic based off of selected state -->
     <script>
-	
-		$(function() {
-			$("#text-one").change(function() {
-				$("#text-two").load('static/' + $(this).val() + ".txt");
-			});
-		});
-	
-	</script>
+
+      $(function() {
+        $("#text-three").change(function() {
+          $("#text-four").load('static/' + $(this).val() + ".txt");
+        });
+      });
+
+    </script>
 
   </head>
 
@@ -29,54 +38,50 @@
 
     <!-- Dropdown Form -->
     <form id = "myForm" method = "POST", action = "/">
+
       <label for="locations">Choose a location:</label>
-      <select name="locations" id="locations" form = "myForm" onchange="this.form.submit()">
+
+      <br />
+      
+      <select name = "state" id="text-three" form = "myForm">
+        <option selected value="base">Please Select</option>
+        {% for state in states %}
+          <option value= "{{ state }}" >{{ state }}</option>
+        {% endfor %}
+      </select>
   
+      <br />
+      <br />
+  
+      <select name = 'county' id="text-four" form = "myForm" onchange="this.form.submit()">
+        <option>Please choose from above</option>
+      </select>
+
+      <!-- <select name="locations" id="locations" form = "myForm" onchange="this.form.submit()">
+
         <option value= "" ></option>
         {% for location in list %}
-  
+
           <option value= "{{ location }}" >{{ location }}</option>
-  
+
         {% endfor %}
-  
-      </select>
+
+      </select> -->
+
     </form>
 
+    <!-- Line chart -->
     <div id="chart" class="chart"></div>
-
-  </body>
-
-    <!-- D3.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <!-- Plotly.js -->
-    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
- 
     <script type="text/javascript">
-         
-        var graphs = {{graphJSON | safe}};
-        Plotly.plot('chart',graphs,{});        
- 
+
+      var graphs = {{graphJSON | safe}};
+      Plotly.plot('chart',graphs,{});        
+
     </script>
 
-  <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics</a></p>
+    <!-- Link back to BHyman Analytics -->
+    <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics</a></p>
 
-  <div id="page-wrap">
-		
-    <h1>Pulls from text files</h1>
-
-    <select id="text-one">
-      <option selected value="base">Please Select</option>
-      <option value="beverages">Beverages</option>
-      <option value="snacks">Snacks</option>
-    </select>
-    
-    <br />
-    
-    <select id="text-two">
-      <option>Please choose from above</option>
-    </select>
-  
-  </div>
+  </body>
 
 </html>

@@ -1,13 +1,15 @@
-# parameterized endpoints
+# Standard Library Imports
+import json
+import os 
+import io
+
+# Needed Libraries
 from flask import Flask, render_template, request
 import plotly.express as px
 import pandas as pd 
 import numpy as np
 import requests
 import plotly
-import json
-import os 
-import io
 
 def pull_data():
 

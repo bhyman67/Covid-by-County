@@ -3,9 +3,23 @@ from flask import Flask, render_template, request
 import plotly.express as px
 import pandas as pd 
 import numpy as np
+import requests
 import plotly
 import json
 import os 
+import io
+
+def pull_data():
+
+    url = (
+        "https://raw.githubusercontent.com"
+        "/CSSEGISandData/COVID-19/master"
+        "/csse_covid_19_data/csse_covid_19_time_series"
+        "/time_series_covid19_confirmed_US.csv")
+    download = requests.get(url).content
+    df = pd.read_csv(io.StringIO(download.decode('utf-8')))
+
+    return df
 
 app = Flask(__name__)
 
@@ -14,7 +28,7 @@ def home():
 
     # Read in the data (should only have to read in the data once, but we'll 
     # figure that out l8er...)
-    df = pd.read_csv('data/time_series_covid19_confirmed_US.csv')
+    df = pull_data() 
     df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
     df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
 

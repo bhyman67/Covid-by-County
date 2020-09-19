@@ -24,9 +24,25 @@
 
       $(function() {
         $("#text-three").change(function() {
-          $("#text-four").load('static/' + $(this).val() + ".txt");
+          $("#text-four").load('/static/' + $(this).val() + ".txt");
         });
       });
+
+    </script>
+    <script type="text/javascript">
+
+      function set_state_county_path() {
+          // Determine the path based off of the selected state and county
+          var state_county_path = "/";
+          state_county_path = state_county_path.concat(document.forms['myForm'].elements['state'].value);
+          state_county_path = state_county_path.concat("/");
+          state_county_path = state_county_path.concat(document.forms['myForm'].elements['county'].value);
+
+          // Set the action of the form element
+          var elem = document.getElementById("myForm");
+          console.log(state_county_path)
+          elem.action = state_county_path
+      }
 
     </script>
 
@@ -37,7 +53,7 @@
     <h1>Covid by US County - Daily Counts</h1>
 
     <!-- Dropdown Form -->
-    <form id = "myForm" method = "POST", action = "/">
+    <form name = "myForm" id = "myForm" method = "POST", action = "">
 
       <!-- Label -->
       <label for="locations">Choose a location:</label>
@@ -64,7 +80,7 @@
       <br />
 
       <!-- Submit Button -->
-      <input type="submit">
+      <input type="submit" onclick="set_state_county_path();">
 
       <!-- onchange="this.form.submit()" -->
 
@@ -84,7 +100,7 @@
     <br>
 
     <!-- Link back to BHyman Analytics -->
-    <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics</a></p>
+    <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics...</a></p>
 
   </body>
 

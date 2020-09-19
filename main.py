@@ -1,3 +1,6 @@
+
+# Two things, can't pull up by path and data pull happens everytime
+
 # Standard Library Imports
 import json
 import os 
@@ -21,6 +24,9 @@ def pull_data():
     download = requests.get(url).content
     df = pd.read_csv(io.StringIO(download.decode('utf-8')))
 
+    df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
+    df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
+
     return df
 
 app = Flask(__name__)
@@ -28,49 +34,45 @@ app = Flask(__name__)
 @app.route("/", methods = ["GET","POST"])
 def home():
 
-    # Read in the data (should only have to read in the data once, but we'll 
-    # figure that out l8er...)
-    df = pull_data() 
-    df.drop(columns=["UID","iso2","iso3","code3","FIPS","Country_Region","Lat","Long_"], inplace=True)
-    df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
+    # Pull the data
+    df = pull_data()
 
     # List all locations
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
-    # This is for determining whether or not a county has been selected to graph
-    # that won't be the case for when the html gets pulled up for the first time.
+    return render_template("index.html", states = states, list=locations)
+
+@app.route("/<state>/<county>", methods = ["GET","POST"])
+def county_graph(state, county):
+
+    # Pull the data
+    df = pull_data()
+
+    # List all locations
+    locations = df["Combined_Key"].to_list()
+    states = list(df["State"].unique())
+
+    # Filter
     if "county" in request.form:
-        if request.form["county"] != "":
-            graphData = True
-    else:
-        graphData = False
-
-    if graphData:
-
-        # Filter
         county = request.form["county"]
         state = request.form["state"]
-        df = df[(df["County"] == county) & (df["State"] == state)]
+    df = df[(df["County"] == county) & (df["State"] == state)]
 
-        # Extract out the time series
-        df.drop(columns = ["County","State"],inplace = True)
-        df = df.T
-        new_header = df.iloc[0] #grab the first row for the header
-        df = df[1:] #take the data less the header row
-        df.columns = new_header #set the header row as the df header
-        stateCountryData = df.iloc[:,0].diff(1)
+    # Extract out the time series
+    df.drop(columns = ["County","State"],inplace = True)
+    df = df.T
+    new_header = df.iloc[0] #grab the first row for the header
+    df = df[1:] #take the data less the header row
+    df.columns = new_header #set the header row as the df header
+    stateCountryData = df.iloc[:,0].diff(1)
 
-        # fig = px.line(stateCountryData, x="", y="", title='')
-        fig = px.line(stateCountryData)
-        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    # fig = px.line(stateCountryData, x="", y="", title='')
+    fig = px.line(stateCountryData)
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-        # Return template and data
-        return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
-    
-    else:
-
-        return render_template("index.html", states = states, list=locations)
+    # Return template and data
+    return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
 
 if __name__ == "__main__":
 

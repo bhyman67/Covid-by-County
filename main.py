@@ -1,6 +1,4 @@
 
-# Two things, can't pull up by path and data pull happens everytime
-
 # Standard Library Imports
 import json
 import os 
@@ -31,35 +29,30 @@ def pull_data():
 
 app = Flask(__name__)
 
-@app.route("/", methods = ["GET","POST"])
+@app.route("/")
 def home():
 
-    # Pull the data
+    # Pull the data and list all locations
     df = pull_data()
-
-    # List all locations
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
-    return render_template("index.html", states = states, list=locations)
+    # Redturn index.html
+    return render_template("index.html", states = states, list = locations)
 
-@app.route("/<state>/<county>", methods = ["GET","POST"])
-def county_graph(state, county):
+@app.route("/graph")
+def county_graph():
 
-    # Pull the data
+    # Pull the data and list all locations
     df = pull_data()
-
-    # List all locations
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
-    # Filter
-    if "county" in request.form:
-        county = request.form["county"]
-        state = request.form["state"]
-    df = df[(df["County"] == county) & (df["State"] == state)]
+    # Filter data (based off of query string)
+    args = request.args
+    df = df[(df["County"] == args["county"]) & (df["State"] == args["state"])] # use the query method
 
-    # Extract out the time series
+    # Extract out the time series data
     df.drop(columns = ["County","State"],inplace = True)
     df = df.T
     new_header = df.iloc[0] #grab the first row for the header

@@ -32,16 +32,12 @@
     <script type="text/javascript">
 
       function set_state_county_path() {
-          // Determine the path based off of the selected state and county
-          var state_county_path = "/";
-          state_county_path = state_county_path.concat(document.forms['myForm'].elements['state'].value);
-          state_county_path = state_county_path.concat("/");
-          state_county_path = state_county_path.concat(document.forms['myForm'].elements['county'].value);
+          
+        const queryString = new URLSearchParams(new FormData(myForm)).toString()
 
-          // Set the action of the form element
-          var elem = document.getElementById("myForm");
-          console.log(state_county_path)
-          elem.action = state_county_path
+        // Set the action of the form element
+        var elem = document.getElementById("myForm");
+        elem.action = elem.action.concat(queryString)
       }
 
     </script>
@@ -53,7 +49,7 @@
     <h1>Covid by US County - Daily Counts</h1>
 
     <!-- Dropdown Form -->
-    <form name = "myForm" id = "myForm" method = "POST", action = "">
+    <form name = "myForm" id = "myForm" method = "GET", action = "/graph?">
 
       <!-- Label -->
       <label for="locations">Choose a location:</label>
@@ -100,7 +96,7 @@
     <br>
 
     <!-- Link back to BHyman Analytics -->
-    <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics...</a></p>
+    <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics</a></p>
 
   </body>
 

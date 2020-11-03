@@ -12,6 +12,7 @@ import numpy as np
 import requests
 import plotly
 
+# pull data funct
 def pull_data():
 
     url = (
@@ -26,6 +27,10 @@ def pull_data():
     df.rename(columns = {"Admin2":"County","Province_State":"State"}, inplace = True)
 
     return df
+
+# +++++++++++++++++++++
+#      Endpoints 
+# +++++++++++++++++++++
 
 app = Flask(__name__)
 
@@ -67,6 +72,7 @@ def county_graph():
     # Return template and data
     return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
 
+# Run app... 
 if __name__ == "__main__":
 
     app.run(debug=True)

@@ -1,6 +1,7 @@
 
-
-# Covid by County Flask App
+<h1>
+    <p align="center">Covid by County Flask App</p>
+</h1>
 
 One function:
 
@@ -18,3 +19,5 @@ Only two endpoints:
     * State
     * County
   * The data pull from the repo happens everytime this endpoint gets requested. Not ideal :(  
+
+<p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics<a><p>

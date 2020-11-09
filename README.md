@@ -4,7 +4,7 @@
 </h1>
 
 <h1></h1>
-<a href = "https://bhyman67.github.io/Covid-by-County/">repo</a>
+<a href = "https://github.com/bhyman67/Covid-by-County">repo</a>
 
 One function:
 

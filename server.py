@@ -1,4 +1,6 @@
 
+# Need to use a DB with this... 
+
 # Standard Library Imports
 import json
 import os 
@@ -12,7 +14,7 @@ import numpy as np
 import requests
 import plotly
 
-# pull data funct
+# pull data 
 def pull_data():
 
     url = (
@@ -53,7 +55,7 @@ def county_graph():
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
-    # Filter data (based off of query string)
+    # Filter data (based off of query string, args is a list of parameters in the query string)
     args = request.args
     df = df[(df["County"] == args["county"]) & (df["State"] == args["state"])] # use the query method
 
@@ -72,7 +74,7 @@ def county_graph():
     # Return template and data
     return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
 
-# Run app... 
+# Run app
 if __name__ == "__main__":
 
     app.run(debug=True)

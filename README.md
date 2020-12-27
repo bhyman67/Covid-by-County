@@ -1,13 +1,21 @@
-
 <h1>
     <p align="center">Covid by County Flask App</p>
 </h1>
 
 <h1></h1>
 
-<p align="center">Click <a href="https://covid-by-county.herokuapp.com">here</a> to run this app</p>
+<p align="center"> <big>Click <a href="https://covid-by-county.herokuapp.com">here</a> to run this app</big> </p>
 
-<a href = "https://github.com/bhyman67/Covid-by-County">repo</a>
+### Description
+The user can select both a state and county and then generate a line graph of daily confimed cases. 
+
+### Data
+
+I used data from the COVID-19 [repository](COVID-19 repository owned by the CSSE at Johns Hopkins University.) owned by the CSSE at Johns Hopkins University.
+
+### Code
+
+The code for this project is in [here](https://github.com/bhyman67/Covid-by-County).
 
 One function:
 

@@ -21,7 +21,8 @@ def pull_data():
         "https://raw.githubusercontent.com"
         "/CSSEGISandData/COVID-19/master"
         "/csse_covid_19_data/csse_covid_19_time_series"
-        "/time_series_covid19_confirmed_US.csv")
+        "/time_series_covid19_confirmed_US.csv"
+    )
     download = requests.get(url).content
     df = pd.read_csv(io.StringIO(download.decode('utf-8')))
 
@@ -55,24 +56,41 @@ def county_graph():
     locations = df["Combined_Key"].to_list()
     states = list(df["State"].unique())
 
-    # Filter data (based off of query string, args is a list of parameters in the query string)
+    # Filter data (based off of query string, args is a list of 
+    # parameters in the query string)
     args = request.args
-    df = df[(df["County"] == args["county"]) & (df["State"] == args["state"])] # use the query method
+    county = args["county"] # str(x).lstrip('[').rstrip(']'), where x is a python list
+    state = args["state"]
+    expr = f"County in ('{county}') and State == '{state}'"
+    df.query(expr = expr, inplace = True)
+    row_count = len(df.index)
 
-    # Extract out the time series data
+    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    #          +++++ All of this in a funct +++++
+
+    # Format the dataframe
     df.drop(columns = ["County","State"],inplace = True)
     df = df.T
-    new_header = df.iloc[0] #grab the first row for the header
-    df = df[1:] #take the data less the header row
-    df.columns = new_header #set the header row as the df header
-    stateCountryData = df.iloc[:,0].diff(1)
+    new_header = df.iloc[0] # grab the first row for the header
+    df = df[1:] # take the data less the header row
+    df.columns = new_header # set the header row as the df header
+    
+    # Calculate the differences
+    for i in range(row_count):
 
-    # fig = px.line(stateCountryData, x="", y="", title='')
-    fig = px.line(stateCountryData)
+        df.iloc[:,i] = df.iloc[:,i].diff(1)
+
+    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    # Graph
+    fig = px.line(df)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     # Return template and data
     return render_template("index.html", list=locations, states = states, graphJSON=graphJSON)
+
+# define the graphs endpoint here (actually, maybe not... )
 
 # Run app
 if __name__ == "__main__":

@@ -11,19 +11,13 @@ The user can select both a state and county and then generate a line graph of da
 
 ### Data
 
-I used data from the COVID-19 [repository](COVID-19 repository owned by the CSSE at Johns Hopkins University.) owned by the CSSE at Johns Hopkins University.
+I used data from the COVID-19 [repository](https://github.com/CSSEGISandData/COVID-19) owned by the CSSE at Johns Hopkins University.
 
 ### Code
 
 The code for this project is in [here](https://github.com/bhyman67/Covid-by-County).
 
-One function:
-
-* pull_data()
-  * makes a web request (GET) to the CSSEGISandData COVID-19 [repo](https://github.com/CSSEGISandData/COVID-19) and uses pandas read_csv funct to read in time_series_covid19_confirmed_US.csv. 
-  * Some columns also get droped and renamed
-
-Only two endpoints:
+This application has two endpoints, on of which is parameterized:
 
 * The root url. Shows State and county drop downs along with the submit button.
   * GET: ``` / ```
@@ -33,5 +27,11 @@ Only two endpoints:
     * State
     * County
   * The data pull from the repo happens everytime this endpoint gets requested. Not ideal :(  
+
+There's only one function:
+
+* pull_data()
+  * makes a web request (GET) to the CSSEGISandData COVID-19 repo and uses pandas read_csv funct to read in time_series_covid19_confirmed_US.csv. 
+  * Some columns also get droped and renamed
 
 <p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics<a><p>

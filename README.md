@@ -4,6 +4,9 @@
 </h1>
 
 <h1></h1>
+
+<p align="center">Click <a href="https://covid-by-county.herokuapp.com">here</a> to run this app</p>
+
 <a href = "https://github.com/bhyman67/Covid-by-County">repo</a>
 
 One function:

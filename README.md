@@ -4,7 +4,7 @@
 
 <h1></h1>
 
-<p align="center"> <big>Click <a href="https://covid-by-county.herokuapp.com">here</a> to run this app</big> </p>
+<p align="center"> <big>Click <a href="https://covid-by-county.herokuapp.com">here</a> to run the app</big> </p>
 
 ### Description
 The user can select both a state and county and then generate a line graph of daily confimed cases. 

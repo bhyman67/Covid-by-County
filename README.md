@@ -7,7 +7,7 @@
 <p align="center"> <big>Click <a href="https://covid-by-county.herokuapp.com">here</a> to run the app</big> </p>
 
 ### Description
-The user can select both a state and county and then generate a line graph of daily confimed cases. 
+The user can select both a state and county and then generate a line graph of daily confirmed cases. 
 
 ### Data
 
@@ -15,23 +15,22 @@ I used data from the COVID-19 [repository](https://github.com/CSSEGISandData/COV
 
 ### Code
 
-The code for this project is in [here](https://github.com/bhyman67/Covid-by-County).
+This application has two endpoints. Both endpoints show the state and county dropdowns. The user can select a location and then hit submit to pull up the graph. Hitting the submit button in both endpoints will take you to the graph endpoint with a query string specifying the selected location.
 
-This application has two endpoints, on of which is parameterized:
-
-* The root url. Shows State and county drop downs along with the submit button.
+* The root endpoint shows only the location web form.
   * GET: ``` / ```
-* Graph endpoint accessed by the submit button. URL path is defined by what was submited in the dropdowns. 
+* The graph endpoint will show both the location web form and the time series chart of the location specified in the query string.
   * GET: ``` /graph/ ```
-  * This endpoint **requires** a query string with two parameters:
+  * **Requires** a query string with two parameters:
     * State
     * County
-  * The data pull from the repo happens everytime this endpoint gets requested. Not ideal :(  
+  * The data pull from the CSSEGISandData COVID-19 repo happens every time this endpoint gets requested. Not ideal...  
 
 There's only one function:
 
 * pull_data()
-  * makes a web request (GET) to the CSSEGISandData COVID-19 repo and uses pandas read_csv funct to read in time_series_covid19_confirmed_US.csv. 
-  * Some columns also get droped and renamed
+  * makes a web request (GET) to the CSSEGISandData COVID-19 repo and uses the pandas read_csv funct to read in time_series_covid19_confirmed_US.csv. 
+  * Some columns also get dropped and renamed
 
-<p align="right">Back to <a href="https://bhyman67.github.io/">BHyman Analytics<a><p>
+<p align="right">Click <a href="https://github.com/bhyman67/Covid-by-County">here</a> to view this project's repository<p>
+<p align="right">Go back to <a href="https://bhyman67.github.io/">BHyman Analytics</a><p>

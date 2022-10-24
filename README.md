@@ -7,6 +7,8 @@
 <p align="center"> <big>Click <a href="https://covid-by-county.herokuapp.com" target = "_blank">here</a> to run the app</big> </p>
 
 ### Description
+If you want to monitor the US numbers on Coronavirus, you could simply just google [state by state coronavirus cases](https://www.google.com/search?q=state+by+state+coronavirus+cases). I also really like the analysis in [covid19-projections.com](https://covid19-projections.com/). And of course, there's the [Johns Hopkins University heat map](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6). I couldn't easily find line charts on daily new cases by county in the US (at the start...). So I decided to build them on on my own.
+
 The user can select both a state and county and then generate a line graph of daily confirmed cases. 
 
 ### Data
